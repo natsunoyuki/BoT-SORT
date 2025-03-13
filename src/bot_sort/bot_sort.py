@@ -68,13 +68,7 @@ class BoTSORT(object):
             self.gmc = None
 
 
-    def update(
-        self, 
-        bboxes=[],
-        classes=[],
-        scores=[],
-        img=None,
-    ):
+    def update(self, bboxes=[], classes=[], scores=[], img=None):
         self.frame_id += 1
         activated_starcks = []
         refind_stracks = []
@@ -111,11 +105,15 @@ class BoTSORT(object):
         if len(dets) > 0:
             '''Detections'''
             if self.with_reid:
-                detections = [STrack(STrack.tlbr_to_tlwh(tlbr), s, f) for
-                              (tlbr, s, f) in zip(dets, scores_keep, features_keep)]
+                detections = [
+                    STrack(STrack.tlbr_to_tlwh(tlbr), s, c, f) for
+                    (tlbr, s, c, f) in zip(dets, scores_keep, classes_keep, features_keep)
+                ]
             else:
-                detections = [STrack(STrack.tlbr_to_tlwh(tlbr), s) for
-                              (tlbr, s) in zip(dets, scores_keep)]
+                detections = [
+                    STrack(STrack.tlbr_to_tlwh(tlbr), s, c) for
+                    (tlbr, s, c) in zip(dets, scores_keep, classes_keep)
+                ]
         else:
             detections = []
 
@@ -191,8 +189,10 @@ class BoTSORT(object):
         # association the untrack to the low score detections
         if len(dets_second) > 0:
             '''Detections'''
-            detections_second = [STrack(STrack.tlbr_to_tlwh(tlbr), s) for
-                                 (tlbr, s) in zip(dets_second, scores_second)]
+            detections_second = [
+                STrack(STrack.tlbr_to_tlwh(tlbr), s, c) for
+                (tlbr, s, c) in zip(dets_second, scores_second, classes_second)
+            ]
         else:
             detections_second = []
 
