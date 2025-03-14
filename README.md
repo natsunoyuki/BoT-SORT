@@ -63,7 +63,7 @@ In addition, python-based motion estimation techniques are available and can be 
 '--cmc-method' <files | orb | ecc> to demo.py or track.py. 
 
 ## Acknowledgements
-This repository is a clean-up and modernized version of the original [BoT-SORT](https://github.com/NirAharon/BoT-SORT) repository. This modernized implementation is neither supported or funded by, nor affiliated with the original authors of [BoT-SORT](https://github.com/NirAharon/BoT-SORT).
+This repository is a modernized version of the original [BoT-SORT](https://github.com/NirAharon/BoT-SORT) repository. This modernized implementation is neither supported or funded by, nor affiliated with the original authors of [BoT-SORT](https://github.com/NirAharon/BoT-SORT).
 
 The original paper by Nir Aharon, Roy Orfaig, Ben-Zion Bobrovsky should be cited as follows.
 ```
