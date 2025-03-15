@@ -47,11 +47,57 @@ cd BoT-SORT
 pip install -e .
 ```
 
+To install the package with tests, specify the corresponding install options.
+```bash
+git clone https://github.com/natsunoyuki/BoT-SORT
+cd BoT-SORT
+pip install -e ".[test]"
+```
+
 ## Data Preparation
 To do.
 
 ## Usage
-To do.
+```python
+import cv2
+from bot_sort import BoTSORT
+
+# Initialize object detector.
+detector = ...
+
+# Initialize BoTSORT tracker.
+tracker = BoTSORT(
+    track_high_thresh = 0.6,
+    track_low_thresh = 0.1,
+    new_track_thresh = 0.7,
+    match_thresh = 0.8,
+    track_buffer = 30,
+    frame_rate = 30,
+)
+
+vid_cap = cv2.VideoCapture(...)
+success = True
+
+while success:
+    success, bgr = vid_cap.read()
+    if not success:
+        break
+    
+    # Object detection to get the bounding boxes, labels and scores.
+    # dets in this case is a dict with keys "bboxes", "labels" and "scores".
+    dets = detector(bgr)
+
+    # Update tracker.
+    tracked_objects = tracker.update(
+        dets["bboxes"], dets["labels"], dets["scores"],
+    )
+
+    # Get tracking ids.
+    ids = [o.track_id for o in tracked_objects]
+    ...
+
+vid_cap.release()
+```
 
 ## Note About Camera Motion Compensation Module
 Our camera motion compensation module is based on the OpenCV contrib C++ version of VideoStab Global Motion Estimation, 
@@ -75,7 +121,7 @@ The original paper by Nir Aharon, Roy Orfaig, Ben-Zion Bobrovsky should be cited
 }
 ```
 
-A large part of the codes, ideas and results are borrowed from 
+A large part of the code, ideas and results are borrowed from 
 [ByteTrack](https://github.com/ifzhang/ByteTrack), 
 [StrongSORT](https://github.com/dyhBUPT/StrongSORT),
 [FastReID](https://github.com/JDAI-CV/fast-reid),

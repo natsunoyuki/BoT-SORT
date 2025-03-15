@@ -6,7 +6,7 @@ Cleaned up and refactored for something more user friendly and deployable
 in a production setting.
 """
 from pathlib import Path
-from typing import List, Tuple, Union, Dict
+from typing import List, Union
 
 import numpy as np
 from numpy.typing import NDArray
