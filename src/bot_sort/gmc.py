@@ -1,10 +1,16 @@
 """
+BoT-SORT tracking algorithm originally written by NirAharon
+https://github.com/NirAharon/BoT-SORT
+
 Our camera motion compensation module is based on the OpenCV contrib C++ version
 of VideoStab Global Motion Estimation, which currently does not have a Python
 version.
 Motion files can be generated using the C++ project called
 'VideoCameraCorrection' in the GMC folder.
 The generated files can be used from the tracker.
+
+gmc.py is currently not usable in a production setting due to the requirement of
+generating the motion files prior to running the tracking algorithm.
 """
 
 import cv2
@@ -14,6 +20,9 @@ import copy
 import time
 
 
+# TODO clean this up, and figure out how to obtain motion estimation with Python
+# and in real time without having to generate the motion estimation files before
+# hand.
 class GMC:
     def __init__(self, method='sparseOptFlow', downscale=2, verbose=None):
         super(GMC, self).__init__()

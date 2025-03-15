@@ -1,4 +1,11 @@
-# vim: expandtab:ts=4:sw=4
+"""
+BoT-SORT tracking algorithm originally written by NirAharon
+https://github.com/NirAharon/BoT-SORT
+
+Cleaned up and refactored for something more user friendly and deployable
+in a production setting.
+"""
+
 import numpy as np
 import scipy.linalg
 
@@ -17,7 +24,8 @@ chi2inv95 = {
     6: 12.592,
     7: 14.067,
     8: 15.507,
-    9: 16.919}
+    9: 16.919,
+}
 
 
 class KalmanFilter(object):
@@ -36,7 +44,6 @@ class KalmanFilter(object):
     observation model).
 
     """
-
     def __init__(self):
         ndim, dt = 4, 1.
 
@@ -51,6 +58,7 @@ class KalmanFilter(object):
         # the model. This is a bit hacky.
         self._std_weight_position = 1. / 20
         self._std_weight_velocity = 1. / 160
+
 
     def initiate(self, measurement):
         """Create track from unassociated measurement.
@@ -84,6 +92,7 @@ class KalmanFilter(object):
             10 * self._std_weight_velocity * measurement[3]]
         covariance = np.diag(np.square(std))
         return mean, covariance
+
 
     def predict(self, mean, covariance):
         """Run Kalman filter prediction step.
@@ -122,6 +131,7 @@ class KalmanFilter(object):
 
         return mean, covariance
 
+
     def project(self, mean, covariance):
         """Project state distribution to measurement space.
 
@@ -150,6 +160,7 @@ class KalmanFilter(object):
         covariance = np.linalg.multi_dot((
             self._update_mat, covariance, self._update_mat.T))
         return mean, covariance + innovation_cov
+
 
     def multi_predict(self, mean, covariance):
         """Run Kalman filter prediction step (Vectorized version).
@@ -189,6 +200,7 @@ class KalmanFilter(object):
         covariance = np.dot(left, self._motion_mat.T) + motion_cov
 
         return mean, covariance
+
 
     def update(self, mean, covariance, measurement):
         """Run Kalman filter correction step.
