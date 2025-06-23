@@ -57,6 +57,7 @@ pip install -e ".[test]"
 ## Data Preparation
 To do.
 
+
 ## Usage
 ```python
 import cv2
@@ -67,12 +68,12 @@ detector = ...
 
 # Initialize BoTSORT tracker.
 tracker = BoTSORT(
-    track_high_thresh = 0.6,
-    track_low_thresh = 0.1,
-    new_track_thresh = 0.7,
-    match_thresh = 0.8,
-    track_buffer = 30,
-    frame_rate = 30,
+    track_high_thresh=0.6,
+    track_low_thresh=0.1,
+    new_track_thresh=0.7,
+    match_thresh=0.8,
+    track_buffer=30,
+    frame_rate=30,
 )
 
 vid_cap = cv2.VideoCapture(...)
@@ -97,6 +98,16 @@ while success:
     ...
 
 vid_cap.release()
+```
+
+### BoT-SORT Parameters
+```
+track_high_thresh=0.6: High detection score threshold. Detections with high scores will be automatically kept.
+track_low_thresh=0.1: Minimum detection score. All detections with low scores will be dropped.
+new_track_thresh=0.7: Detection score threshold to initiate new unconfirmed (tracks with only one beginning frame) tracks.
+match_thresh=0.8: Minimum matching score threshold to match tracked bounding boxes.
+track_buffer=30: Number of buffer frames. Typically set to the same as frame_rate.
+frame_rate=30: Frame rate. Typically set to the same as track_buffer.
 ```
 
 ## Note About Camera Motion Compensation Module
